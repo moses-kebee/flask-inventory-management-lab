@@ -12,6 +12,13 @@ import requests
 BASE_URL = "https://world.openfoodfacts.org"
 TIMEOUT = 10  # seconds
 
+# OpenFoodFacts requires a descriptive User-Agent identifying the app;
+# requests without one (e.g. the default python-requests UA) get a 403.
+# See: https://openfoodfacts.github.io/openfoodfacts-server/api/
+HEADERS = {
+    "User-Agent": "InventoryManagementApp/1.0 (contact: your-email@example.com)"
+}
+
 
 def fetch_product_by_barcode(barcode):
     """
@@ -23,7 +30,7 @@ def fetch_product_by_barcode(barcode):
     url = f"{BASE_URL}/api/v2/product/{barcode}.json"
 
     try:
-        response = requests.get(url, timeout=TIMEOUT)
+        response = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
         response.raise_for_status()
     except requests.RequestException:
         return None
@@ -61,7 +68,7 @@ def search_products_by_name(query, page_size=10):
     }
 
     try:
-        response = requests.get(url, params=params, timeout=TIMEOUT)
+        response = requests.get(url, params=params, headers=HEADERS, timeout=TIMEOUT)
         response.raise_for_status()
     except requests.RequestException:
         return None
