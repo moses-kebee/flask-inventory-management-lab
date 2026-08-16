@@ -147,3 +147,6 @@ suite runs without needing network access.
 - **PATCH over PUT**: Updates use PATCH with partial payloads (only
   changed fields need to be sent) rather than requiring a full item
   replacement.
+
+## Version
+v1.0 - Initial release with full CRUD, external API integration, and CLI.
